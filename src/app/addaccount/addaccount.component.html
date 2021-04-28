@@ -1,0 +1,87 @@
+<section class="col-md-4 mx-auto">
+  <h2 class="test-center">Add Account</h2>
+  <div class="alert alert-success" *ngIf="msg != undefined">{{ msg }}</div>
+  <div class="alert alert-danger" *ngIf="errorMsg != undefined">
+    {{ errorMsg }}
+  </div>
+
+  <form #frm="ngForm" (ngSubmit)="addAccount()">
+    <div>Account ID</div>
+    <div>
+      <input
+        type="number"
+        name="aid"
+        [(ngModel)]="account.accountNumber"
+        required
+        #modelaid="ngModel"
+        class="form-control"
+      />
+    </div>
+    <div
+      class="alert alert-danger"
+      *ngIf="modelaid.invalid && modelaid.touched"
+    >
+      Account ID is required
+    </div>
+
+    <div>Account Name</div>
+    <div>
+      <input
+        type="text"
+        name="aname"
+        [(ngModel)]="account.accountName"
+        required
+        #mlcname="ngModel"
+        class="form-control"
+      />
+    </div>
+    <div class="alert alert-danger" *ngIf="mlcname.invalid && mlcname.touched">
+      Account Name is required
+    </div>
+
+    <div>Balance</div>
+    <div>
+      <input
+        type="number"
+        name="abal"
+        [(ngModel)]="account.balance"
+        required
+        #mlbal="ngModel"
+        class="form-control"
+      />
+    </div>
+    <div class="alert alert-danger" *ngIf="mlbal.invalid && mlbal.touched">
+      Balance is required
+    </div>
+
+    <div>Account Type</div>
+    <div>
+      <select
+        name="atype"
+        [(ngModel)]="account.type"
+        #mltype="ngModel"
+        class="form-control"
+      >
+        <option>SAVINGS</option>
+        <option>CURRENT</option>
+      </select>
+    </div>
+    <div class="alert alert-danger" *ngIf="mltype.invalid && mltype.touched">
+      Account Type is required
+    </div>
+
+    <div class="mt-2 text-center">
+      <button
+        type="submit"
+        value="Add Account"
+        [disabled]="frm.invalid"
+        class="btn btn-danger"
+      >
+        Add Account
+      </button>
+      <button type="reset" value="Reset Form" class="btn btn-info">
+        Reset
+      </button>
+    </div>
+  </form>
+</section>

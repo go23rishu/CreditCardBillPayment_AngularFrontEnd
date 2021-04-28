@@ -1,0 +1,161 @@
+<div class="alert alert-success" *ngIf="msg != undefined">{{ msg }}</div>
+<div class="alert alert-danger" *ngIf="errorMsg != undefined">
+  {{ errorMsg }}
+</div>
+
+<div *ngIf="updateDiv">
+  <Div class="mt-2 text-center"><H1>Update Account.</H1> </Div>
+
+  <form #frm="ngForm" (ngSubmit)="updateAccount()">
+    <div>Account ID</div>
+    <div>
+      <input
+        type="number"
+        name="aid"
+        [(ngModel)]="modifyAccount.accountNumber"
+        required
+        #accid="ngModel"
+        class="form-control"
+        disabled
+      />
+    </div>
+
+    <div>Account Name</div>
+    <div>
+      <input
+        type="text"
+        name="name"
+        [(ngModel)]="modifyAccount.accountName"
+        required
+        #accname="ngModel"
+        class="form-control"
+      />
+    </div>
+    <div class="alert alert-danger" *ngIf="accname.invalid && accname.touched">
+      Account Name is required
+    </div>
+
+    <div>Balance</div>
+    <div>
+      <input
+        type="text"
+        name="bal"
+        [(ngModel)]="modifyAccount.balance"
+        required
+        #accbal="ngModel"
+        class="form-control"
+      />
+    </div>
+    <div class="alert alert-danger" *ngIf="accbal.invalid && accbal.touched">
+      Balance is required
+    </div>
+
+    <div>Type</div>
+    <div>
+      <select
+        name="type"
+        [(ngModel)]="modifyAccount.type"
+        required
+        #acctype="ngModel"
+        class="form-control"
+      >
+        <option>SAVINGS</option>
+        <option>CURRENT</option>
+      </select>
+    </div>
+    <div class="alert alert-danger" *ngIf="acctype.invalid && acctype.touched">
+      Type is required
+    </div>
+
+    <div class="mt-2 text-center">
+      <input
+        type="submit"
+        value="update Account"
+        [disabled]="frm.invalid"
+        class="btn btn-danger"
+      />
+      <button
+        type="button"
+        (click)="cancel()"
+        value="Cancel"
+        class="btn btn-success"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="!updateDiv">
+  <Div class="mt-2 text-center"><H1>List of all Accounts</H1> </Div>
+  <hr />
+  <form class="form-inline my-2 my-lg-0">
+    <input
+      type="search"
+      (ngModelChange)="searchAccounts(key.value)"
+      #key="ngModel"
+      ngModel
+      name="key"
+      id="searchName"
+      class="form-control mr-sm-2 searchBox text-center"
+      placeholder="Enter Account Number..."
+      required
+    />
+    <label>Search Account </label>
+  </form>
+  <div
+    class="alert alert-danger"
+    id="alerts"
+    *ngIf="notFound != undefined && notFoundDiv"
+    style="background-color: coral; color: white"
+  >
+    {{ notFound }}
+
+    <button
+      type="button"
+      (click)="cancel2()"
+      style="float: right; color: black"
+    >
+      Close
+    </button>
+  </div>
+
+  <table
+    class="table table-primary table-striped table-hover col-md-8 mx-auto mt-3"
+    border="1"
+    style="background-color: cadetblue"
+  >
+    <tr style="color: white; font-size: 30px">
+      <th>Account ID</th>
+      <th>Customer Name</th>
+      <th>Balance</th>
+      <th>Type</th>
+      <th>Operations</th>
+    </tr>
+    <tr *ngFor="let account of accounts" style="color: white">
+      <td>{{ account.accountNumber }}</td>
+      <td>{{ account.accountName | titlecase }}</td>
+      <td>{{ account.balance | currency: "INR" }}</td>
+      <td>{{ account.type }}</td>
+
+      <td>
+        <button
+          type="button"
+          (click)="update(account)"
+          value="Update"
+          class="btn btn-success"
+        >
+          Update
+        </button>
+        <button
+          type="button"
+          (click)="deleteAccount(account.accountNumber)"
+          value="Delete"
+          class="btn btn-danger"
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+  </table>
+</div>
